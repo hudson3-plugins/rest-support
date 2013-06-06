@@ -26,7 +26,7 @@ package org.hudsonci.rest.plugin.components;
 
 import org.hudsonci.rest.api.internal.FaultExceptionMapper;
 import org.hudsonci.rest.api.internal.GenericExceptionMapper;
-import org.hudsonci.rest.api.internal.AcegiSecurityExceptionMapper;
+import org.hudsonci.rest.api.internal.SpringSecurityExceptionMapper;
 import org.hudsonci.rest.api.internal.HandshakeResource;
 import org.hudsonci.rest.api.internal.NotFoundExceptionMapper;
 import org.hudsonci.rest.api.internal.WebApplicationExceptionMapper;
@@ -55,7 +55,7 @@ public class CoreComponents
             JacksonProvider.class,
             FaultExceptionMapper.class,
             NotFoundExceptionMapper.class,
-            AcegiSecurityExceptionMapper.class,
+            SpringSecurityExceptionMapper.class,
             WebApplicationExceptionMapper.class,
             GenericExceptionMapper.class,
 

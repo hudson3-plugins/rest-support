@@ -24,7 +24,7 @@
 
 package org.hudsonci.rest.api.internal;
 
-import org.acegisecurity.AcegiSecurityException;
+import org.springframework.security.SpringSecurityException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,18 +37,18 @@ import static javax.ws.rs.core.MediaType.*;
 import static javax.ws.rs.core.Response.Status.*;
 
 /**
- * Generates UNAUTHORIZED responses for {@link AcegiSecurityException}s.
+ * Generates UNAUTHORIZED responses for {@link SpringSecurityException}s.
  *
  * @author <a href="mailto:jason@planet57.com">Jason Dillon</a>
  * @since 2.1.0
  */
 @Provider
-public class AcegiSecurityExceptionMapper
-    implements ExceptionMapper<AcegiSecurityException>
+public class SpringSecurityExceptionMapper
+    implements ExceptionMapper<SpringSecurityException>
 {
-    private static final Logger log = LoggerFactory.getLogger(AcegiSecurityExceptionMapper.class);
+    private static final Logger log = LoggerFactory.getLogger(SpringSecurityException.class);
 
-    public Response toResponse(final AcegiSecurityException cause) {
+    public Response toResponse(final SpringSecurityException cause) {
         checkNotNull(cause);
 
         log.debug("Generating UNAUTHORIZED response for: {}", cause, cause);
