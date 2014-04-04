@@ -24,17 +24,15 @@
 
 package org.hudsonci.rest.api.internal;
 
-import org.springframework.security.SpringSecurityException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import javax.ws.rs.core.Response;
-import javax.ws.rs.ext.ExceptionMapper;
-import javax.ws.rs.ext.Provider;
-
 import static com.google.common.base.Preconditions.checkNotNull;
 import static javax.ws.rs.core.MediaType.*;
+import javax.ws.rs.core.Response;
 import static javax.ws.rs.core.Response.Status.*;
+import javax.ws.rs.ext.ExceptionMapper;
+import javax.ws.rs.ext.Provider;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.security.core.AuthenticationException;
 
 /**
  * Generates UNAUTHORIZED responses for {@link SpringSecurityException}s.
@@ -44,11 +42,11 @@ import static javax.ws.rs.core.Response.Status.*;
  */
 @Provider
 public class SpringSecurityExceptionMapper
-    implements ExceptionMapper<SpringSecurityException>
+    implements ExceptionMapper<AuthenticationException>
 {
-    private static final Logger log = LoggerFactory.getLogger(SpringSecurityException.class);
+    private static final Logger log = LoggerFactory.getLogger(AuthenticationException.class);
 
-    public Response toResponse(final SpringSecurityException cause) {
+    public Response toResponse(final AuthenticationException cause) {
         checkNotNull(cause);
 
         log.debug("Generating UNAUTHORIZED response for: {}", cause, cause);
