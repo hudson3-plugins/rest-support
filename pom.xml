@@ -28,7 +28,7 @@ THE SOFTWARE.
     <parent>
         <groupId>org.eclipse.hudson.plugins</groupId>
         <artifactId>hudson-plugin-parent</artifactId>
-        <version>3.2.0-M0</version>
+        <version>3.2.0</version>
     </parent>
 
     <groupId>org.hudsonci.plugins</groupId>
@@ -43,12 +43,12 @@ THE SOFTWARE.
         <hudson.jaxb.version>2.2.0</hudson.jaxb.version>
         <jackson-jaxrs.version>1.7.1</jackson-jaxrs.version>
         <jackson-xc.version>1.7.1</jackson-xc.version>
-        <jersey-guice.version>1.5</jersey-guice.version>
-        <jersey-json.version>1.5</jersey-json.version>
-        <jersey-ahc-client.version>1.0.1</jersey-ahc-client.version>
+        <jersey-guice.version>1.19</jersey-guice.version>
+        <jersey-json.version>1.19</jersey-json.version>
+        <jersey-ahc-client.version>1.0.2</jersey-ahc-client.version>
         <jsr311-api.version>1.1.1</jsr311-api.version>
         <cometd-java-asynchttpclient.version>1.1</cometd-java-asynchttpclient.version>
-        <cometd-java-server.version>1.1.2</cometd-java-server.version>
+        <cometd-java-server.version>3.0.4</cometd-java-server.version>
         <enunciate-plugin.version>1.26.2</enunciate-plugin.version>
     </properties>
 
@@ -104,6 +104,12 @@ THE SOFTWARE.
                 <version>${cometd-java-asynchttpclient.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>org.cometd.java</groupId>
+                <artifactId>cometd-java-common</artifactId>
+                <version>${cometd-java-server.version}</version>
+            </dependency>
+            
             <dependency>
                 <groupId>org.cometd.java</groupId>
                 <artifactId>cometd-java-server</artifactId>

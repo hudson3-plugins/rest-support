@@ -18,28 +18,25 @@
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  */
-
 package org.hudsonci.rest.plugin.cometd;
 
-import org.hudsonci.servlets.ServletContainer;
-import org.hudsonci.servlets.ServletContainerAware;
-import org.hudsonci.servlets.ServletRegistration;
-import org.cometd.Bayeux;
-import org.cometd.Channel;
-import org.cometd.server.continuation.ContinuationCometdServlet;
-import org.cometd.server.ext.AcknowledgedMessagesExtension;
-import org.hudsonci.rest.plugin.ApiProvider;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import static com.google.common.base.Preconditions.checkState;
 import javax.inject.Named;
 import javax.inject.Singleton;
 import javax.servlet.ServletException;
-
-import static com.google.common.base.Preconditions.checkState;
+import org.cometd.bayeux.Channel;
+import org.cometd.bayeux.server.BayeuxServer;
+import org.cometd.server.CometDServlet;
+import org.cometd.server.ext.AcknowledgedMessagesExtension;
+import org.hudsonci.rest.plugin.ApiProvider;
+import org.hudsonci.servlets.ServletContainer;
+import org.hudsonci.servlets.ServletContainerAware;
+import org.hudsonci.servlets.ServletRegistration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Configures support for Bayeux via CometD.
@@ -50,15 +47,15 @@ import static com.google.common.base.Preconditions.checkState;
 @Named
 @Singleton
 public class CometdProvider
-    extends ApiProvider
-{
+        extends ApiProvider {
+
     private static final Logger log = LoggerFactory.getLogger(CometdProvider.class);
 
     private static ServletRegistration.Handle handle;
 
-    private static Bayeux bayeux;
+    private static BayeuxServer bayeux;
 
-    public static Bayeux getBayeux() {
+    public static BayeuxServer getBayeux() {
         checkState(bayeux != null);
         return bayeux;
     }
@@ -83,9 +80,9 @@ public class CometdProvider
     public static Channel getChannel(final String channel, final boolean create) {
         if (bayeux != null) {
             try {
-                return bayeux.getChannel(channel, create);
-            }
-            catch (IllegalStateException e) {
+                bayeux.createChannelIfAbsent(channel);
+                return bayeux.getChannel(channel);
+            } catch (IllegalStateException e) {
                 log.warn("Failed to get channel", e);
             }
         }
@@ -95,14 +92,14 @@ public class CometdProvider
     @Named
     @Singleton
     public static class ServletInstaller
-        implements ServletContainerAware
-    {
-        private final ContinuationCometdServlet servlet = new ContinuationCometdServlet() {
+            implements ServletContainerAware {
+
+        private final CometDServlet servlet = new CometDServlet() {
             @Override
             public void init() throws ServletException {
                 super.init();
 
-                Bayeux b = servlet.getBayeux();
+                BayeuxServer b = servlet.getBayeux();
                 b.addExtension(new AcknowledgedMessagesExtension());
                 bayeux = b;
             }

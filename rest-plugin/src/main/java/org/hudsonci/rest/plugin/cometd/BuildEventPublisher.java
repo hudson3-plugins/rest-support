@@ -24,23 +24,21 @@
 
 package org.hudsonci.rest.plugin.cometd;
 
-import org.hudsonci.rest.common.JsonCodec;
-import org.hudsonci.rest.model.build.BuildEventDTO;
-import org.hudsonci.rest.model.build.BuildEventTypeDTO;
+import static com.google.common.base.Preconditions.checkNotNull;
 import hudson.model.AbstractBuild;
 import hudson.model.TaskListener;
 import hudson.model.listeners.RunListener;
-import org.cometd.Channel;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
-
-import static com.google.common.base.Preconditions.checkNotNull;
+import org.cometd.bayeux.server.ServerChannel;
+import org.hudsonci.rest.common.JsonCodec;
+import org.hudsonci.rest.model.build.BuildEventDTO;
+import org.hudsonci.rest.model.build.BuildEventTypeDTO;
 import static org.hudsonci.rest.model.build.BuildEventTypeDTO.STARTED;
 import static org.hudsonci.rest.model.build.BuildEventTypeDTO.STOPPED;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Publishes {@link BuildEventDTO} messages.
@@ -90,11 +88,11 @@ public class BuildEventPublisher
         assert event != null;
         try {
             // TODO: Use String.format("%s/%s", CANNEL, event.getProjectName()) though will probably have to encode the name
-            Channel channel = CometdProvider.getChannel(CHANNEL, false);
+            ServerChannel channel = CometdProvider.getBayeux().getChannel(CHANNEL);
             if (channel != null) {
                 String data = codec.encode(event);
                 log.debug("Publishing event w/data: {}", data);
-                channel.publish(null, data, null);
+                channel.publish(null, data);
             }
             else {
                 log.trace("Channel does not exist; skipping publish event");
