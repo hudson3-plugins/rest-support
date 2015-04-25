@@ -27,8 +27,8 @@ import static com.google.common.base.Preconditions.checkState;
 import javax.inject.Named;
 import javax.inject.Singleton;
 import javax.servlet.ServletException;
-import org.cometd.bayeux.Channel;
 import org.cometd.bayeux.server.BayeuxServer;
+import org.cometd.bayeux.server.ServerChannel;
 import org.cometd.server.CometDServlet;
 import org.cometd.server.ext.AcknowledgedMessagesExtension;
 import org.hudsonci.rest.plugin.ApiProvider;
@@ -77,7 +77,7 @@ public class CometdProvider
         return "Bayeux (CometD)";
     }
 
-    public static Channel getChannel(final String channel, final boolean create) {
+    public static ServerChannel getChannel(final String channel) {
         if (bayeux != null) {
             try {
                 bayeux.createChannelIfAbsent(channel);

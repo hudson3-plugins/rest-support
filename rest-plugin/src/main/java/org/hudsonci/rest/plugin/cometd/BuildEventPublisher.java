@@ -88,7 +88,7 @@ public class BuildEventPublisher
         assert event != null;
         try {
             // TODO: Use String.format("%s/%s", CANNEL, event.getProjectName()) though will probably have to encode the name
-            ServerChannel channel = CometdProvider.getBayeux().getChannel(CHANNEL);
+            ServerChannel channel = CometdProvider.getChannel(CHANNEL);
             if (channel != null) {
                 String data = codec.encode(event);
                 log.debug("Publishing event w/data: {}", data);
