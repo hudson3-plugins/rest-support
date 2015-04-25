@@ -33,6 +33,7 @@ THE SOFTWARE.
 
   <groupId>org.hudsonci.plugins</groupId>
   <artifactId>rest-plugin</artifactId>
+  <version>2.2.2-SNAPSHOT</version>
   <name>Hudson Rest Plugin</name>
   <packaging>hpi</packaging>
 
@@ -60,7 +61,6 @@ THE SOFTWARE.
     <dependency>
       <groupId>org.eclipse.hudson</groupId>
       <artifactId>hudson-test-framework</artifactId>
-      <version>3.2.0-M0</version>
       <exclusions>
         <exclusion>
           <groupId>org.mortbay.jetty</groupId>
@@ -106,7 +106,6 @@ THE SOFTWARE.
       <plugin>
         <groupId>org.eclipse.hudson.tools</groupId>
         <artifactId>maven-hpi-plugin</artifactId>
-        <version>3.0.2</version>
         <extensions>true</extensions>
         <configuration>
           <showDeprecation>true</showDeprecation>
